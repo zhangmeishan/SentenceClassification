@@ -25,7 +25,7 @@ class CPUEmbedding(nn.Module):
 
     def _apply(self, fn):
         str_func = str(fn)
-        print(str_func)
+        #print(str_func)
         if 'cuda.<locals>.<lambda>' in str_func:
             print('Always in cpu: function disabled')
             return self
