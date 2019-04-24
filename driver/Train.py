@@ -144,10 +144,10 @@ if __name__ == '__main__':
     pickle.dump(vocab, open(config.save_vocab_path, 'wb'))
 
     config.use_cuda = False
-    if gpu and args.gpu >= 0: config.use_cuda = True
-    print("\nGPU using status: ", config.use_cuda)
-
-    # print(config.use_cuda)
+    if gpu and args.gpu >= 0:
+        torch.cuda.set_device(args.gpu)
+        config.use_cuda = True
+        print("GPU ID: ", args.gpu)
 
     model = BiLSTMModel(vocab, config, vec)
     model = model.cpu()
