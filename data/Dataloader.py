@@ -23,7 +23,7 @@ def creatVocab(corpusFile, min_occur_count):
     tag_counter = Counter()
     alldatas = read_corpus(corpusFile)
     for inst in alldatas:
-        for curword in inst.forms:
+        for curword in inst.words:
             word_counter[curword] += 1
         tag_counter[inst.tag] += 1
 
@@ -35,9 +35,9 @@ def insts_numberize(insts, vocab):
 
 def inst2id(inst, vocab):
     inputs = []
-    for form in inst.forms:
-        wordid = vocab.word2id(form)
-        extwordid = vocab.extword2id(form)
+    for curword in inst.words:
+        wordid = vocab.word2id(curword)
+        extwordid = vocab.extword2id(curword)
         inputs.append([wordid, extwordid])
 
     return inputs, vocab.tag2id(inst.tag)
@@ -68,10 +68,10 @@ def data_iter(data, batch_size, shuffle=True):
 
 
 def batch_data_variable(batch, vocab):
-    length = len(batch[0].forms)
+    length = len(batch[0].words)
     batch_size = len(batch)
     for b in range(1, batch_size):
-        if len(batch[b].forms) > length: length = len(batch[b].forms)
+        if len(batch[b].words) > length: length = len(batch[b].words)
 
     words = Variable(torch.LongTensor(batch_size, length).zero_(), requires_grad=False)
     extwords = Variable(torch.LongTensor(batch_size, length).zero_(), requires_grad=False)
